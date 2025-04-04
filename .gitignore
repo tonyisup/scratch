@@ -1,0 +1,34 @@
+# Credentials and secrets
+credentials.json
+token.json
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+/dist
+/build
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Data files (uncomment if these contain sensitive information)
+comments-selenium.json
+comments.json
+comments-all.json
+comment-response.json 

@@ -25,9 +25,32 @@ def setup_driver():
     # Enable DevTools Protocol
     chrome_options.set_capability("goog:loggingPrefs", {"performance": "ALL"})
     
-    # Initialize the driver
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-    return driver
+    try:
+        # Try using ChromeDriverManager with explicit version
+        service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=chrome_options)
+        return driver
+    except Exception as e:
+        print(f"Error with ChromeDriverManager: {e}")
+        print("Trying alternative approach...")
+        
+        try:
+            # Alternative approach: Use Chrome directly without ChromeDriverManager
+            chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
+            driver = webdriver.Chrome(options=chrome_options)
+            return driver
+        except Exception as e2:
+            print(f"Error with direct Chrome approach: {e2}")
+            print("Trying one more approach...")
+            
+            try:
+                # Last resort: Try with undetected-chromedriver if available
+                import undetected_chromedriver as uc
+                driver = uc.Chrome(options=chrome_options)
+                return driver
+            except ImportError:
+                print("undetected-chromedriver not installed. Please install it with: pip install undetected-chromedriver")
+                raise Exception("Could not initialize Chrome driver. Please check your Chrome installation and try again.")
 
 def extract_comments_from_xhr(driver, logs):
     """Extract comments from XHR response logs."""
