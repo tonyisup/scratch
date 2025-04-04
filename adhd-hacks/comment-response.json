@@ -1,0 +1,392 @@
+[
+  {
+      "node": {
+          "pk": "17912178489095361",
+          "user": {
+              "is_verified": true,
+              "id": "26593805",
+              "pk": "26593805",
+              "is_unpublished": null,
+              "profile_pic_url": "https://scontent-lax3-2.cdninstagram.com/v/t51.2885-19/472346478_1666746187600995_1608064227891866283_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=scontent-lax3-2.cdninstagram.com&_nc_cat=103&_nc_oc=Q6cZ2QFPxsfssYLXL0CQRkH9fBrHpv5Emqv3USr1ES60On9Cy28xNf9MVsc9O7F-LbcscvA&_nc_ohc=bcGENe8eAHQQ7kNvwE3nNYU&_nc_gid=l3VlZ1F0db4gcGi_bssOFQ&edm=AKp6CbIBAAAA&ccb=7-5&oh=00_AYF7nBfcdgui64umKlbKZHk3eIGEaCX_Z-bBS9dbnyCJPg&oe=67F5E4A0&_nc_sid=d62176",
+              "username": "aliciacreti",
+              "fbid_v2": "17841401014150415"
+          },
+          "is_covered": false,
+          "child_comment_count": 1,
+          "restricted_status": null,
+          "has_translation": null,
+          "has_liked_comment": false,
+          "text": "I make dinner and dont eat it until i cleaned the entire apartment. That shit goes in the microwave at least 3 times so i make my pasta sauce extra creamy",
+          "giphy_media_info": null,
+          "created_at": 1743757024,
+          "parent_comment_id": null,
+          "comment_like_count": 35,
+          "__typename": "XDTCommentDict"
+      },
+      "cursor": ""
+  },
+  {
+      "node": {
+          "pk": "18007023059566441",
+          "user": {
+              "is_verified": false,
+              "id": "2284906759",
+              "pk": "2284906759",
+              "is_unpublished": null,
+              "profile_pic_url": "https://scontent-lax3-1.cdninstagram.com/v/t51.2885-19/13551582_624589747707873_1685384722_a.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=scontent-lax3-1.cdninstagram.com&_nc_cat=109&_nc_oc=Q6cZ2QFPxsfssYLXL0CQRkH9fBrHpv5Emqv3USr1ES60On9Cy28xNf9MVsc9O7F-LbcscvA&_nc_ohc=ZCyHw_LodWcQ7kNvwF6CBDU&_nc_gid=l3VlZ1F0db4gcGi_bssOFQ&edm=AKp6CbIBAAAA&ccb=7-5&oh=00_AYEnh-Y61jzSHQLJobzP6g4SQcWyZ2OlpdJPdS-uZJh3aA&oe=67F5F858&_nc_sid=d62176",
+              "username": "liz.s.delcarmen",
+              "fbid_v2": "17841402242785613"
+          },
+          "is_covered": false,
+          "child_comment_count": 0,
+          "restricted_status": null,
+          "has_translation": null,
+          "has_liked_comment": false,
+          "text": "If I need to take something with me when I leave the next day I’ll make a HUGE sign and tape it *across* the seam of the from door with masking tape or duct tape, right at eye level. So that I have to spend several moments breaking the seal I’ve created on the door, I can’t just breeze past it like I could a post it note or something.",
+          "giphy_media_info": null,
+          "created_at": 1743783271,
+          "parent_comment_id": null,
+          "comment_like_count": 2,
+          "__typename": "XDTCommentDict"
+      },
+      "cursor": ""
+  },
+  {
+      "node": {
+          "pk": "17997387626783292",
+          "user": {
+              "is_verified": false,
+              "id": "1380663890",
+              "pk": "1380663890",
+              "is_unpublished": null,
+              "profile_pic_url": "https://scontent-lax3-1.cdninstagram.com/v/t51.2885-19/475450379_636361185507308_5239615531614584994_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=scontent-lax3-1.cdninstagram.com&_nc_cat=108&_nc_oc=Q6cZ2QFPxsfssYLXL0CQRkH9fBrHpv5Emqv3USr1ES60On9Cy28xNf9MVsc9O7F-LbcscvA&_nc_ohc=mJ5iE1rWZ2MQ7kNvwEXrhXj&_nc_gid=l3VlZ1F0db4gcGi_bssOFQ&edm=AKp6CbIBAAAA&ccb=7-5&oh=00_AYEBGzSQZTLNHI_Sw8kv2JVz4FOMkrp7Ff996TJ2iXoisg&oe=67F5D4BC&_nc_sid=d62176",
+              "username": "howthheck",
+              "fbid_v2": "17841401676721572"
+          },
+          "is_covered": false,
+          "child_comment_count": 1,
+          "restricted_status": null,
+          "has_translation": null,
+          "has_liked_comment": false,
+          "text": "I will delay enjoyable or rewarding things as long as possible in order to get more of the not enjoyable or less rewarding things done. I get an hour lunch at work and can choose when I take it, and I regularly will work 5-6 hours before taking my lunch because it means I only have 2-3 hours left when I get back. When I was in school I'd write entire papers in one day, sometimes one sitting if I had the time to. I'll do as many chores as possible before taking a break to do something I like. Basically if I can get it out of the way all in one go I will",
+          "giphy_media_info": null,
+          "created_at": 1743783733,
+          "parent_comment_id": null,
+          "comment_like_count": 0,
+          "__typename": "XDTCommentDict"
+      },
+      "cursor": ""
+  },
+  {
+      "node": {
+          "pk": "17988285926797326",
+          "user": {
+              "is_verified": false,
+              "id": "203034843",
+              "pk": "203034843",
+              "is_unpublished": null,
+              "profile_pic_url": "https://scontent-lax3-1.cdninstagram.com/v/t51.2885-19/369713937_1502647637216812_7923407637901269152_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=scontent-lax3-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2QFPxsfssYLXL0CQRkH9fBrHpv5Emqv3USr1ES60On9Cy28xNf9MVsc9O7F-LbcscvA&_nc_ohc=pX6xJ7i6guoQ7kNvwGB8x9X&_nc_gid=l3VlZ1F0db4gcGi_bssOFQ&edm=AKp6CbIBAAAA&ccb=7-5&oh=00_AYHSmi0bCFfzTNyx55ZuOIWZ6g0NzZ9v3ugogR-Vqjg6Qg&oe=67F5E4F9&_nc_sid=d62176",
+              "username": "cmontondon",
+              "fbid_v2": "17841400805293172"
+          },
+          "is_covered": false,
+          "child_comment_count": 2,
+          "restricted_status": null,
+          "has_translation": null,
+          "has_liked_comment": false,
+          "text": "Audiobooks have changed my ability to clean, cook and tackle longer projects",
+          "giphy_media_info": null,
+          "created_at": 1743736229,
+          "parent_comment_id": null,
+          "comment_like_count": 15,
+          "__typename": "XDTCommentDict"
+      },
+      "cursor": ""
+  },
+  {
+      "node": {
+          "pk": "18096580744534661",
+          "user": {
+              "is_verified": false,
+              "id": "1584835950",
+              "pk": "1584835950",
+              "is_unpublished": null,
+              "profile_pic_url": "https://scontent-lax3-1.cdninstagram.com/v/t51.2885-19/396811924_3657745491166193_6537765357200856098_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=scontent-lax3-1.cdninstagram.com&_nc_cat=105&_nc_oc=Q6cZ2QFPxsfssYLXL0CQRkH9fBrHpv5Emqv3USr1ES60On9Cy28xNf9MVsc9O7F-LbcscvA&_nc_ohc=zKnZBwfObMEQ7kNvwEu43Eq&_nc_gid=l3VlZ1F0db4gcGi_bssOFQ&edm=AKp6CbIBAAAA&ccb=7-5&oh=00_AYFFL_XHjeao9UMTtWPrndxRoCETsZKMXV5Xrm11ZCyxSw&oe=67F5F666&_nc_sid=d62176",
+              "username": "ninon_ringenbach",
+              "fbid_v2": "17841400118524763"
+          },
+          "is_covered": false,
+          "child_comment_count": 0,
+          "restricted_status": null,
+          "has_translation": null,
+          "has_liked_comment": false,
+          "text": "I’m writing everything down",
+          "giphy_media_info": null,
+          "created_at": 1743783533,
+          "parent_comment_id": null,
+          "comment_like_count": 2,
+          "__typename": "XDTCommentDict"
+      },
+      "cursor": ""
+  },
+  {
+      "node": {
+          "pk": "18334073932090390",
+          "user": {
+              "is_verified": false,
+              "id": "1532802305",
+              "pk": "1532802305",
+              "is_unpublished": null,
+              "profile_pic_url": "https://scontent-lax3-2.cdninstagram.com/v/t51.2885-19/463879178_1217077912887375_82347370118268173_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=scontent-lax3-2.cdninstagram.com&_nc_cat=103&_nc_oc=Q6cZ2QFPxsfssYLXL0CQRkH9fBrHpv5Emqv3USr1ES60On9Cy28xNf9MVsc9O7F-LbcscvA&_nc_ohc=RyaMUr5iGTUQ7kNvwEYHvju&_nc_gid=l3VlZ1F0db4gcGi_bssOFQ&edm=AKp6CbIBAAAA&ccb=7-5&oh=00_AYEEBoprJvU58K1SI_RyLuaqs7i4eRynZBpOtnFiH9QpbA&oe=67F5E4A7&_nc_sid=d62176",
+              "username": "donu.ts",
+              "fbid_v2": "17841400069173950"
+          },
+          "is_covered": false,
+          "child_comment_count": 8,
+          "restricted_status": null,
+          "has_translation": null,
+          "has_liked_comment": false,
+          "text": "Mini ice cream cone before breakfast. I wake up and I think “if I get out of bed right now I can eat an ice cream cone” then I’m up!",
+          "giphy_media_info": null,
+          "created_at": 1743732838,
+          "parent_comment_id": null,
+          "comment_like_count": 210,
+          "__typename": "XDTCommentDict"
+      },
+      "cursor": ""
+  },
+  {
+      "node": {
+          "pk": "18008197274551545",
+          "user": {
+              "is_verified": true,
+              "id": "13522733910",
+              "pk": "13522733910",
+              "is_unpublished": null,
+              "profile_pic_url": "https://scontent-lax3-1.cdninstagram.com/v/t51.2885-19/434790820_789944205867574_4625880134811046033_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=scontent-lax3-1.cdninstagram.com&_nc_cat=110&_nc_oc=Q6cZ2QFPxsfssYLXL0CQRkH9fBrHpv5Emqv3USr1ES60On9Cy28xNf9MVsc9O7F-LbcscvA&_nc_ohc=W4_5kayFBPwQ7kNvwGlNzp2&_nc_gid=l3VlZ1F0db4gcGi_bssOFQ&edm=AKp6CbIBAAAA&ccb=7-5&oh=00_AYGefzr3cqIAWDKewWCHAEy1OFnI5AkQszcbGzYsvbDUDA&oe=67F5D785&_nc_sid=d62176",
+              "username": "tindertranslators",
+              "fbid_v2": "17841413617310341"
+          },
+          "is_covered": false,
+          "child_comment_count": 1,
+          "restricted_status": null,
+          "has_translation": null,
+          "has_liked_comment": false,
+          "text": "Choose shoes you don't need to wear socks with so that you can avoid washing/drying/putting away socks AND having to find socks and put them on before you go out 😂",
+          "giphy_media_info": null,
+          "created_at": 1743776826,
+          "parent_comment_id": null,
+          "comment_like_count": 9,
+          "__typename": "XDTCommentDict"
+      },
+      "cursor": ""
+  },
+  {
+      "node": {
+          "pk": "18066890908755745",
+          "user": {
+              "is_verified": false,
+              "id": "27970954684",
+              "pk": "27970954684",
+              "is_unpublished": null,
+              "profile_pic_url": "https://scontent-lax3-1.cdninstagram.com/v/t51.2885-19/437980202_801344011872538_5171292502406665917_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=scontent-lax3-1.cdninstagram.com&_nc_cat=110&_nc_oc=Q6cZ2QFPxsfssYLXL0CQRkH9fBrHpv5Emqv3USr1ES60On9Cy28xNf9MVsc9O7F-LbcscvA&_nc_ohc=8OITD6keGyIQ7kNvwERq2lA&_nc_gid=l3VlZ1F0db4gcGi_bssOFQ&edm=AKp6CbIBAAAA&ccb=7-5&oh=00_AYHM7k6do4Mc5lz2CR9Ztpq4ViIZLo1H9IbUBCiI9LBv8A&oe=67F5CEF0&_nc_sid=d62176",
+              "username": "fork.diet.culture",
+              "fbid_v2": "17841427920536369"
+          },
+          "is_covered": false,
+          "child_comment_count": 1,
+          "restricted_status": null,
+          "has_translation": null,
+          "has_liked_comment": false,
+          "text": "I LOVE THIS COMMENT SECTION",
+          "giphy_media_info": null,
+          "created_at": 1743782480,
+          "parent_comment_id": null,
+          "comment_like_count": 6,
+          "__typename": "XDTCommentDict"
+      },
+      "cursor": ""
+  },
+  {
+      "node": {
+          "pk": "18382330168136546",
+          "user": {
+              "is_verified": false,
+              "id": "641699959",
+              "pk": "641699959",
+              "is_unpublished": null,
+              "profile_pic_url": "https://scontent-lax3-2.cdninstagram.com/v/t51.2885-19/469135934_1244847326723730_4092102746680533302_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=scontent-lax3-2.cdninstagram.com&_nc_cat=106&_nc_oc=Q6cZ2QFPxsfssYLXL0CQRkH9fBrHpv5Emqv3USr1ES60On9Cy28xNf9MVsc9O7F-LbcscvA&_nc_ohc=vG4ZafnpoEIQ7kNvwFJlEm6&_nc_gid=l3VlZ1F0db4gcGi_bssOFQ&edm=AKp6CbIBAAAA&ccb=7-5&oh=00_AYHZTfzYNw4IBWAgQtO0u-DTGbd9ZsIMbdPppRKT5UlSWw&oe=67F5F5CA&_nc_sid=d62176",
+              "username": "jolenekellough",
+              "fbid_v2": "17841401078780026"
+          },
+          "is_covered": false,
+          "child_comment_count": 0,
+          "restricted_status": null,
+          "has_translation": null,
+          "has_liked_comment": false,
+          "text": "Piles. Start in a room that needs to be tidied. Bins or boxes or a laundry basket will be your friend for this. Start with collecting trash. Now anything that belongs not in that room, goes into a bin. You can have a bin for each room that you just drop shit into as you clean, then you’re only making one trip across the house to the other rooms, ergo, less chance for distracting side quests",
+          "giphy_media_info": null,
+          "created_at": 1743783158,
+          "parent_comment_id": null,
+          "comment_like_count": 1,
+          "__typename": "XDTCommentDict"
+      },
+      "cursor": ""
+  },
+  {
+      "node": {
+          "pk": "17918032782078450",
+          "user": {
+              "is_verified": false,
+              "id": "22087952312",
+              "pk": "22087952312",
+              "is_unpublished": null,
+              "profile_pic_url": "https://scontent-lax3-1.cdninstagram.com/v/t51.2885-19/454496041_2197020493988776_4937422855176913440_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=scontent-lax3-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2QFPxsfssYLXL0CQRkH9fBrHpv5Emqv3USr1ES60On9Cy28xNf9MVsc9O7F-LbcscvA&_nc_ohc=m3fWTh17VeUQ7kNvwEe888q&_nc_gid=l3VlZ1F0db4gcGi_bssOFQ&edm=AKp6CbIBAAAA&ccb=7-5&oh=00_AYHaP-c5U5zPq5rD_ZmdNkmC5QOOPeNBeNPWZheD9Z3QKw&oe=67F5D6D2&_nc_sid=d62176",
+              "username": "hiyo_im_milo",
+              "fbid_v2": "17841422089360994"
+          },
+          "is_covered": false,
+          "child_comment_count": 8,
+          "restricted_status": null,
+          "has_translation": null,
+          "has_liked_comment": false,
+          "text": "i turn on the big light in every room when i clean. i only get to turn off the big light when i finish that room. if i get distracted and walk away from the room that I'm on I'll notice the big light and get back on task. also keeping your shoes on (even just my socks works for me) while you want to get shii done so you dont get too comfy",
+          "giphy_media_info": null,
+          "created_at": 1743714345,
+          "parent_comment_id": null,
+          "comment_like_count": 418,
+          "__typename": "XDTCommentDict"
+      },
+      "cursor": ""
+  },
+  {
+      "node": {
+          "pk": "17987056541650886",
+          "user": {
+              "is_verified": false,
+              "id": "3621107436",
+              "pk": "3621107436",
+              "is_unpublished": null,
+              "profile_pic_url": "https://scontent-lax3-1.cdninstagram.com/v/t51.2885-19/413919179_920069186433320_4829823025693618935_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=scontent-lax3-1.cdninstagram.com&_nc_cat=108&_nc_oc=Q6cZ2QFPxsfssYLXL0CQRkH9fBrHpv5Emqv3USr1ES60On9Cy28xNf9MVsc9O7F-LbcscvA&_nc_ohc=8GQb-e-wW24Q7kNvwGCOCS5&_nc_gid=l3VlZ1F0db4gcGi_bssOFQ&edm=AKp6CbIBAAAA&ccb=7-5&oh=00_AYGjjkyM9tfOy9cMCqFDoBSoXXrseXkez9kZP-ksoUFK-w&oe=67F5E17B&_nc_sid=d62176",
+              "username": "como.la.miel",
+              "fbid_v2": "17841403703082638"
+          },
+          "is_covered": false,
+          "child_comment_count": 0,
+          "restricted_status": null,
+          "has_translation": null,
+          "has_liked_comment": false,
+          "text": "I leave lights on so I will notice it later and then ask myself why I would leave a light on. I move from kitchen to living room to my room at night to “close up” before going to sleep and turn off each light to know I did everything I needed to to leave that room",
+          "giphy_media_info": null,
+          "created_at": 1743739667,
+          "parent_comment_id": null,
+          "comment_like_count": 32,
+          "__typename": "XDTCommentDict"
+      },
+      "cursor": ""
+  },
+  {
+      "node": {
+          "pk": "17963029142860922",
+          "user": {
+              "is_verified": false,
+              "id": "33233039536",
+              "pk": "33233039536",
+              "is_unpublished": null,
+              "profile_pic_url": "https://scontent-lax3-1.cdninstagram.com/v/t51.2885-19/400302628_1094334391930757_7611595118348759726_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=scontent-lax3-1.cdninstagram.com&_nc_cat=105&_nc_oc=Q6cZ2QFPxsfssYLXL0CQRkH9fBrHpv5Emqv3USr1ES60On9Cy28xNf9MVsc9O7F-LbcscvA&_nc_ohc=zQKT8AFZkgwQ7kNvwFnhBGX&_nc_gid=l3VlZ1F0db4gcGi_bssOFQ&edm=AKp6CbIBAAAA&ccb=7-5&oh=00_AYFLgT7Y6hKO-TpxIzlBgpT58Nad4H0LLbEGV2LXRPjvrA&oe=67F60383&_nc_sid=d62176",
+              "username": "er_there4you",
+              "fbid_v2": "17841433346094129"
+          },
+          "is_covered": false,
+          "child_comment_count": 0,
+          "restricted_status": null,
+          "has_translation": null,
+          "has_liked_comment": false,
+          "text": "Brush your teeth before going in the shower, then you can climb right into bed! Or tape your refrigerator closed so you remember to take food out of your freezer for dinner",
+          "giphy_media_info": null,
+          "created_at": 1743771391,
+          "parent_comment_id": null,
+          "comment_like_count": 1,
+          "__typename": "XDTCommentDict"
+      },
+      "cursor": ""
+  },
+  {
+      "node": {
+          "pk": "17877577512290349",
+          "user": {
+              "is_verified": false,
+              "id": "360185055",
+              "pk": "360185055",
+              "is_unpublished": null,
+              "profile_pic_url": "https://scontent-lax3-2.cdninstagram.com/v/t51.2885-19/476235837_2978305228976807_4607498953181331249_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=scontent-lax3-2.cdninstagram.com&_nc_cat=111&_nc_oc=Q6cZ2QFPxsfssYLXL0CQRkH9fBrHpv5Emqv3USr1ES60On9Cy28xNf9MVsc9O7F-LbcscvA&_nc_ohc=R7t5hOaEaxsQ7kNvwE8zxlY&_nc_gid=l3VlZ1F0db4gcGi_bssOFQ&edm=AKp6CbIBAAAA&ccb=7-5&oh=00_AYGjIb4iU9IL3ZLqAyRFJQn1JAUhqCzJAyIT06icywqh5w&oe=67F5E998&_nc_sid=d62176",
+              "username": "orionjackell",
+              "fbid_v2": "17841401711655627"
+          },
+          "is_covered": false,
+          "child_comment_count": 0,
+          "restricted_status": null,
+          "has_translation": null,
+          "has_liked_comment": false,
+          "text": "I used to get annoyed that every time I took out the trash I would forget to put a new bag in, so I would continue using the same bag until it filled up an ungodly amount, also I always take out the trash as I’m on my way out to work and would be running late so no time to replace the bag \nI decided to just line the trash can with multiple bags so every time I get back home I have no trash and a trash can thats ready to use because it already has a bag",
+          "giphy_media_info": null,
+          "created_at": 1743775753,
+          "parent_comment_id": null,
+          "comment_like_count": 7,
+          "__typename": "XDTCommentDict"
+      },
+      "cursor": ""
+  },
+  {
+      "node": {
+          "pk": "18363265777135584",
+          "user": {
+              "is_verified": false,
+              "id": "57730359981",
+              "pk": "57730359981",
+              "is_unpublished": null,
+              "profile_pic_url": "https://scontent-lax3-2.cdninstagram.com/v/t51.2885-19/461391051_1704454850407479_3169378868262384220_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=scontent-lax3-2.cdninstagram.com&_nc_cat=103&_nc_oc=Q6cZ2QFPxsfssYLXL0CQRkH9fBrHpv5Emqv3USr1ES60On9Cy28xNf9MVsc9O7F-LbcscvA&_nc_ohc=cTPphG6rwGwQ7kNvwEE4gVu&_nc_gid=l3VlZ1F0db4gcGi_bssOFQ&edm=AKp6CbIBAAAA&ccb=7-5&oh=00_AYHvlQk_eQ7B0A8UJjmoRJKzrN3VWMqP_Dw_Ym7CSoM8Cg&oe=67F5CDC1&_nc_sid=d62176",
+              "username": "ellie_brooks27",
+              "fbid_v2": "17841457839446294"
+          },
+          "is_covered": false,
+          "child_comment_count": 1,
+          "restricted_status": null,
+          "has_translation": null,
+          "has_liked_comment": false,
+          "text": "have 3 different stimulations going while you're doing something you hate like folding laundry or cleaning. music+movie+show+people talking",
+          "giphy_media_info": null,
+          "created_at": 1743776517,
+          "parent_comment_id": null,
+          "comment_like_count": 7,
+          "__typename": "XDTCommentDict"
+      },
+      "cursor": ""
+  },
+  {
+      "node": {
+          "pk": "17907912834101584",
+          "user": {
+              "is_verified": false,
+              "id": "3283874562",
+              "pk": "3283874562",
+              "is_unpublished": null,
+              "profile_pic_url": "https://scontent-lax3-2.cdninstagram.com/v/t51.2885-19/448212578_1028919378748303_1591439889192810480_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=scontent-lax3-2.cdninstagram.com&_nc_cat=107&_nc_oc=Q6cZ2QFPxsfssYLXL0CQRkH9fBrHpv5Emqv3USr1ES60On9Cy28xNf9MVsc9O7F-LbcscvA&_nc_ohc=P06pFGXVhh4Q7kNvwFZn5rh&_nc_gid=l3VlZ1F0db4gcGi_bssOFQ&edm=AKp6CbIBAAAA&ccb=7-5&oh=00_AYEnINsaKvdCVeu9VlrrncO6ftpmZnNVLWwrIsM5-YIJew&oe=67F5D07E&_nc_sid=d62176",
+              "username": "akatix",
+              "fbid_v2": "17841403196880484"
+          },
+          "is_covered": false,
+          "child_comment_count": 1,
+          "restricted_status": null,
+          "has_translation": null,
+          "has_liked_comment": false,
+          "text": "I explain the task as I do it to my cats 🫣 one, they're always shadowing me anyways, and two - if I'm talking about the thing as I do the thing my brain must think about the thing",
+          "giphy_media_info": null,
+          "created_at": 1743783360,
+          "parent_comment_id": null,
+          "comment_like_count": 0,
+          "__typename": "XDTCommentDict"
+      },
+      "cursor": ""
+  }
+]

@@ -1,0 +1,107 @@
+import json
+import re
+from bs4 import BeautifulSoup
+import os
+import html
+import unicodedata
+
+def clean_text(text):
+    """Clean and normalize text content."""
+    # Normalize Unicode characters
+    text = unicodedata.normalize('NFKC', text)
+    # Replace Unicode quotes and apostrophes with standard ones
+    text = text.replace('"', '"').replace('"', '"')
+    text = text.replace(''', "'").replace(''', "'")
+    # Decode HTML entities
+    text = html.unescape(text)
+    # Remove excessive whitespace
+    text = ' '.join(text.split())
+    return text
+
+def extract_comments(html_file):
+    """
+    Extract comments from an HTML file and return them as a list of dictionaries.
+    Each dictionary contains the username and comment text.
+    """
+    with open(html_file, 'r', encoding='utf-8', errors='ignore') as file:
+        html_content = file.read()
+    
+    soup = BeautifulSoup(html_content, 'html.parser')
+    comments = []
+    
+    # Find all comment containers
+    comment_containers = soup.find_all('div', {'class': lambda x: x and 'x1nhvcw1' in x.split()})
+    
+    for container in comment_containers:
+        try:
+            # Extract username
+            username_elem = container.find('span', class_='_ap3a _aaco _aacw _aacx _aad7 _aade')
+            if not username_elem:
+                continue
+                
+            username = clean_text(username_elem.text) if username_elem else "Unknown User"
+            
+            # Extract comment text
+            comment_elem = container.find('div', {'class': lambda x: x and 'x1cy8zhl' in x.split()})
+            if not comment_elem:
+                continue
+                
+            comment_text = clean_text(comment_elem.text) if comment_elem else ""
+            
+            # Extract timestamp
+            time_elem = container.find('time')
+            timestamp = time_elem.get('datetime') if time_elem else ""
+            
+            # Extract likes count
+            likes_elem = container.find('span', string=re.compile(r'\d+ likes?'))
+            likes_count = clean_text(likes_elem.text).split()[0] if likes_elem else "0"
+            
+            # Check for verified status
+            verified = bool(container.find('svg', {'aria-label': 'Verified'}))
+            
+            if comment_text and username != "Unknown User":
+                comments.append({
+                    "username": username,
+                    "comment": comment_text,
+                    "timestamp": timestamp,
+                    "likes": likes_count,
+                    "verified": verified
+                })
+        except Exception as e:
+            print(f"Error processing comment: {str(e)}")
+            continue
+    
+    # Remove duplicates while preserving order
+    seen = set()
+    unique_comments = []
+    for comment in comments:
+        key = (comment['username'], comment['comment'])
+        if key not in seen:
+            seen.add(key)
+            unique_comments.append(comment)
+    
+    return unique_comments
+
+def save_to_json(comments, output_file):
+    """Save the extracted comments to a JSON file."""
+    with open(output_file, 'w', encoding='utf-8') as file:
+        json.dump(comments, file, indent=2, ensure_ascii=False)
+    
+    print(f"Comments saved to {output_file}")
+
+def main():
+    # Input and output file paths
+    html_file = "comments.txt"
+    output_file = "comments.json"
+    
+    # Extract comments
+    comments = extract_comments(html_file)
+    
+    # Save to JSON
+    save_to_json(comments, output_file)
+    
+    # Print summary
+    print(f"Extracted {len(comments)} comments")
+
+if __name__ == "__main__":
+    main() 
