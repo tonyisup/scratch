@@ -90,7 +90,7 @@ function setup() {
 
 // --- Main Draw Loop ---
 function draw() {
-  background(240, 245, 250);
+  background(40, 45, 50);
 
   // Draw time at the top
   fill(50);
@@ -164,12 +164,18 @@ function drawBalloon(columnIndex) {
   let x = columnWidth * (columnIndex + 1);
   let y = bubbleYs[columnIndex];
   
-  // Draw metric label above balloon
-  fill(50);
-  noStroke();
+  // Draw metric label alternating above and below
+	
+  fill(255);
   textSize(14);
-  textAlign(CENTER, BOTTOM);
-  text(metricLabels[columnIndex], x, y - bubbleDiameter/2 - 10);
+  textAlign(CENTER, CENTER);
+  if (columnIndex % 2 === 0) {
+    // Even columns: label above
+    text(metricLabels[columnIndex], x, y - bubbleDiameter/2 - 20);
+  } else {
+    // Odd columns: label below
+    text(metricLabels[columnIndex], x, y + bubbleDiameter/2 + 40);
+  }
   
   // Update deformation animation
   if (deformationAmounts[columnIndex] > 0) {
