@@ -75,10 +75,13 @@ function draw() {
       bubbleVelocityY = 0; // Stop firmly at top
     }
 
-    // 4. Store current rating for history
+    // 4. Update the rating based on bubble position
+    currentRating = mapYToRating(bubbleY);
+
+    // 5. Store current rating for history
     ratingHistory.push(currentRating);
 
-    // 5. Draw elements
+    // 6. Draw elements
     drawBubble(width / 2, bubbleY, currentRating);
     drawPauseButton();
   }
@@ -253,12 +256,10 @@ function handleInput(mx, my) {
       console.log("Paused");
     } else {
       // If not paused and not clicking a button, it's a screen tap to bump rating
-      currentRating += bumpAmount;
-      currentRating = min(10, currentRating); // Clamp rating <= 10
-
-      // Give the visual bubble an upward kick with more energy
+      // Instead of directly modifying the rating, we'll give the bubble an upward kick
       bubbleVelocityY = -bubbleBouncePower;
-
+      
+      // The rating will be updated in the next draw cycle based on the bubble position
       // console.log("Bump! Rating:", nf(currentRating, 1, 1)); // Optional logging
     }
   }
@@ -271,6 +272,13 @@ function mapRatingToY(rating) {
   let topPadding = bubbleDiameter / 2 + 30; // Space from top
   let bottomPadding = bubbleDiameter / 2 + 30; // Space from bottom
   return map(rating, 0, 10, height - bottomPadding, topPadding);
+}
+
+// Maps a Y coordinate to a 0-10 rating (new function)
+function mapYToRating(y) {
+  let topPadding = bubbleDiameter / 2 + 30; // Space from top
+  let bottomPadding = bubbleDiameter / 2 + 30; // Space from bottom
+  return map(y, height - bottomPadding, topPadding, 0, 10);
 }
 
 // Checks if a point (mx, my) is inside a rectangular area {x, y, w, h}
