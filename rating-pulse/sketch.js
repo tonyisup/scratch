@@ -10,14 +10,14 @@ let columnSpacing = 0.2; // Spacing between columns as fraction of screen width
 // Movie metric labels and colors
 const metricLabels = [
   "Story",
+  "Engagement",
+  "Fun",
+  "Replay",
   "Performance",
   "Emotion",
   "Visual",
   "Audio",
   "Message",
-  "Engagement",
-  "Fun",
-  "Replay",
   "Depth",
   "Clarity"
 ];
@@ -34,7 +34,7 @@ const balloonColors = [
   { fill: [255, 105, 180, 200], knot: [235, 85, 160, 200] }, // Fun - Hot Pink
   { fill: [138, 43, 226, 200], knot: [118, 23, 206, 200] },  // Replay - Blue Violet
   { fill: [0, 191, 255, 200], knot: [0, 171, 235, 200] },    // Depth - Deep Sky Blue
-  { fill: [255, 255, 224, 200], knot: [235, 235, 204, 200] } // Clarity - Light Yellow
+  { fill: [255, 128, 0, 200], knot: [235, 108, 0, 200] } // Clarity - Light Yellow
 ];
 
 // --- Global State Variables ---
@@ -45,6 +45,13 @@ let ended = false;
 let startTime;
 let pausedTime = 0; // Track how much time was spent paused
 let lastPauseTime; // Track when we last paused
+
+// Interaction tracking
+let isDragging = false;
+let dragStartX = 0;
+let dragStartY = 0;
+let dragStartTime = 0;
+let activeBalloonIndex = -1;
 
 // --- Visual Bubble Variables ---
 let bubbleYs = []; // Array of Y positions for each balloon
@@ -95,6 +102,15 @@ function draw() {
   let minutes = Math.floor(elapsedTime / 60);
   let seconds = elapsedTime % 60;
   text(nf(minutes, 2) + ":" + nf(seconds, 2), width / 2, 20);
+
+  // Draw drag line if dragging
+  if (isDragging && activeBalloonIndex >= 0) {
+    let columnWidth = width / (numColumns + 1);
+    let x = columnWidth * (activeBalloonIndex + 1);
+    stroke(100, 100, 100, 150);
+    strokeWeight(2);
+    line(x, dragStartY, mouseX, mouseY);
+  }
 
   if (ended) {
     drawEndScreen();
@@ -318,13 +334,86 @@ function drawHistoryGraphs() {
 // --- Input Handling ---
 
 function touchStarted() {
-  handleInput(mouseX, mouseY);
-  return false; // Prevent default browser behaviors like scrolling or double-tap zoom
+  mousePressed();
+  return false;
+}
+
+function touchMoved() {
+  mouseDragged();
+  return false;
+}
+
+function touchEnded() {
+  mouseReleased();
+  return false;
 }
 
 function mousePressed() {
+  if (ended || paused) {
+    handleInput(mouseX, mouseY);
+    return;
+  }
+
+  // Check if clicking a balloon or its string
+  for (let i = 0; i < numColumns; i++) {
+    let columnWidth = width / (numColumns + 1);
+    let x = columnWidth * (i + 1);
+    let y = bubbleYs[i];
+    
+    let boxWidth = bubbleDiameter * 1.2;
+    let boxHeight = bubbleDiameter + 40;
+    let boxX = x - boxWidth/2;
+    let boxY = y - bubbleDiameter/2;
+    
+    if (mouseX >= boxX && mouseX <= boxX + boxWidth &&
+        mouseY >= boxY && mouseY <= boxY + boxHeight) {
+      isDragging = true;
+      dragStartX = mouseX;
+      dragStartY = mouseY;
+      dragStartTime = Date.now();
+      activeBalloonIndex = i;
+      return;
+    }
+  }
+  
+  // If not clicking a balloon, check UI buttons
   handleInput(mouseX, mouseY);
-  // No 'return false' needed for mousePressed on desktop usually
+}
+
+function mouseDragged() {
+  if (!isDragging || activeBalloonIndex < 0) return;
+  
+  // Calculate drag distance and direction
+  let dragDistance = mouseY - dragStartY;
+  let dragDuration = Date.now() - dragStartTime;
+  
+  // Only apply force if drag is significant
+  if (abs(dragDistance) > 10) {
+    let force = map(dragDistance, -100, 100, -bubbleBouncePower * 2, bubbleBouncePower * 2);
+    force = constrain(force, -bubbleBouncePower * 2, bubbleBouncePower * 2);
+    
+    bubbleVelocitiesY[activeBalloonIndex] = force;
+    deformationAmounts[activeBalloonIndex] = abs(force) / bubbleBouncePower;
+  }
+}
+
+function mouseReleased() {
+  if (!isDragging || activeBalloonIndex < 0) return;
+  
+  // Calculate final velocity based on drag speed
+  let dragDistance = mouseY - dragStartY;
+  let dragDuration = Date.now() - dragStartTime;
+  let dragSpeed = dragDistance / dragDuration;
+  
+  // Apply velocity based on drag speed
+  let force = map(dragSpeed, -2, 2, -bubbleBouncePower * 2, bubbleBouncePower * 2);
+  force = constrain(force, -bubbleBouncePower * 2, bubbleBouncePower * 2);
+  
+  bubbleVelocitiesY[activeBalloonIndex] = force;
+  deformationAmounts[activeBalloonIndex] = abs(force) / bubbleBouncePower;
+  
+  isDragging = false;
+  activeBalloonIndex = -1;
 }
 
 function handleInput(mx, my) {
@@ -335,7 +424,6 @@ function handleInput(mx, my) {
   } else if (paused) {
     if (isInsideArea(mx, my, resumeButtonArea)) {
       paused = false;
-      // Add the time spent paused to our total paused time
       pausedTime += Date.now() - lastPauseTime;
       console.log("Resumed");
     } else if (isInsideArea(mx, my, endButtonArea)) {
@@ -347,30 +435,8 @@ function handleInput(mx, my) {
   } else {
     if (isInsideArea(mx, my, pauseButtonArea)) {
       paused = true;
-      lastPauseTime = Date.now(); // Record when we paused
+      lastPauseTime = Date.now();
       console.log("Paused");
-    } else {
-      // Check each balloon's bounding box
-      for (let i = 0; i < numColumns; i++) {
-        let columnWidth = width / (numColumns + 1);
-        let x = columnWidth * (i + 1);
-        let y = bubbleYs[i];
-        
-        // Define balloon bounding box (including string)
-        let boxWidth = bubbleDiameter * 1.2; // Slightly wider than balloon
-        let boxHeight = bubbleDiameter + 40; // Height of balloon plus string
-        let boxX = x - boxWidth/2;
-        let boxY = y - bubbleDiameter/2;
-        
-        // Check if click is within this balloon's bounding box
-        if (mx >= boxX && mx <= boxX + boxWidth &&
-            my >= boxY && my <= boxY + boxHeight) {
-          // Bump the balloon
-          bubbleVelocitiesY[i] = -bubbleBouncePower;
-          deformationAmounts[i] = 0.5;
-          break; // Exit loop once we've found the clicked balloon
-        }
-      }
     }
   }
 }
