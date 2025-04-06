@@ -4,21 +4,20 @@ let bumpAmount = .4;    // How much a tap increases the rating
 let bubbleVisualGravity = valueGravity; // How fast the visual bubble falls
 let bubbleBouncePower = 1.2;   // How much the visual bubble jumps when tapped (increased from 0.4)
 let bubbleDamping = 0.92; // How quickly the bubble's velocity decreases (new parameter)
+let numColumns = 3; // Number of balloon columns
+let columnSpacing = 0.2; // Spacing between columns as fraction of screen width
 
 // --- Global State Variables ---
-let currentRating = 5.0; // The actual enjoyment rating (0-10)
-let ratingHistory = [];   // Stores rating history for the graph
+let ratings = []; // Array of ratings for each column
+let ratingHistories = []; // Array of rating histories for each column
 let paused = false;
 let ended = false;
 
 // --- Visual Bubble Variables ---
-let bubbleY;
+let bubbleYs = []; // Array of Y positions for each balloon
 let bubbleDiameter = 80;
-let bubbleVelocityY = 0;
-// Deformation animation variables
-let deformationAmount = 0;
-let deformationDirection = 1;
-let deformationSpeed = 0.15;
+let bubbleVelocitiesY = []; // Array of Y velocities for each balloon
+let deformationAmounts = []; // Array of deformation amounts for each balloon
 let deformationDamping = 0.92;
 
 // --- UI Element Definitions ---
@@ -31,13 +30,17 @@ let graphDisplayArea;
 // --- Setup ---
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  // Initial bubble position based on starting rating
-  bubbleY = mapRatingToY(currentRating);
-  ratingHistory = [currentRating]; // Start history
+  
+  // Initialize arrays for each column
+  for (let i = 0; i < numColumns; i++) {
+    ratings[i] = 5.0;
+    ratingHistories[i] = [ratings[i]];
+    bubbleYs[i] = mapRatingToY(ratings[i]);
+    bubbleVelocitiesY[i] = 0;
+    deformationAmounts[i] = 0;
+  }
 
-  // Define UI areas dynamically based on canvas size
   calculateLayout();
-
   textAlign(CENTER, CENTER);
   textSize(16);
   // frameRate(30); // Optional: Can reduce frame rate if needed
@@ -52,52 +55,57 @@ function draw() {
     drawEndScreen();
   } else if (paused) {
     drawPauseScreen();
-    // Keep drawing the static bubble/rating while paused
-    drawBubble(width / 2, bubbleY, currentRating);
+    // Keep drawing the static balloons while paused
+    for (let i = 0; i < numColumns; i++) {
+      drawBalloon(i);
+    }
   } else {
     // --- Running State ---
+    for (let i = 0; i < numColumns; i++) {
+      // 1. Update the Rating (apply gravity)
+      ratings[i] -= valueGravity;
+      ratings[i] = max(0, ratings[i]);
 
-    // 1. Update the Rating (apply gravity)
-    currentRating -= valueGravity;
-    currentRating = max(0, currentRating); // Clamp rating >= 0
+      // 2. Update Visual Bubble Physics
+      bubbleVelocitiesY[i] += bubbleVisualGravity;
+      bubbleYs[i] += bubbleVelocitiesY[i];
+      bubbleVelocitiesY[i] *= bubbleDamping;
 
-    // 2. Update Visual Bubble Physics
-    bubbleVelocityY += bubbleVisualGravity; // Apply visual gravity
-    bubbleY += bubbleVelocityY;
-    
-    // Apply damping to the velocity (new)
-    bubbleVelocityY *= bubbleDamping;
+      // 3. Keep visual bubble within screen bounds
+      let topBound = bubbleDiameter / 2 + 10;
+      let bottomBound = height - bubbleDiameter / 2 - 10;
+      if (bubbleYs[i] > bottomBound) {
+        bubbleYs[i] = bottomBound;
+        bubbleVelocitiesY[i] *= -0.4;
+      }
+      if (bubbleYs[i] < topBound) {
+        bubbleYs[i] = topBound;
+        bubbleVelocitiesY[i] = 0;
+      }
 
-    // 3. Keep visual bubble within screen bounds (approx)
-    let topBound = bubbleDiameter / 2 + 10;
-    let bottomBound = height - bubbleDiameter / 2 - 10;
-    if (bubbleY > bottomBound) {
-      bubbleY = bottomBound;
-      bubbleVelocityY *= -0.4; // Dampen bounce at bottom
+      // 4. Update the rating based on bubble position
+      ratings[i] = mapYToRating(bubbleYs[i]);
+
+      // 5. Store current rating for history
+      ratingHistories[i].push(ratings[i]);
+
+      // 6. Draw elements
+      drawBalloon(i);
     }
-    if (bubbleY < topBound) {
-      bubbleY = topBound;
-      bubbleVelocityY = 0; // Stop firmly at top
-    }
-
-    // 4. Update the rating based on bubble position
-    currentRating = mapYToRating(bubbleY);
-
-    // 5. Store current rating for history
-    ratingHistory.push(currentRating);
-
-    // 6. Draw elements
-    drawBubble(width / 2, bubbleY, currentRating);
     drawPauseButton();
   }
 }
 
 // --- Drawing Functions ---
 
-function drawBubble(x, y, value) {
+function drawBalloon(columnIndex) {
+  let columnWidth = width / (numColumns + 1);
+  let x = columnWidth * (columnIndex + 1);
+  let y = bubbleYs[columnIndex];
+  
   // Update deformation animation
-  if (deformationAmount > 0) {
-    deformationAmount *= deformationDamping;
+  if (deformationAmounts[columnIndex] > 0) {
+    deformationAmounts[columnIndex] *= deformationDamping;
   }
   
   // Draw the balloon string
@@ -111,9 +119,8 @@ function drawBubble(x, y, value) {
   fill(100, 150, 255, 200);
   push();
   translate(x, y);
-  // Apply squish and stretch based on deformation
-  let stretchX = 1 + deformationAmount * 0.3;
-  let stretchY = 1.1 - deformationAmount * 0.2;
+  let stretchX = 1 + deformationAmounts[columnIndex] * 0.3;
+  let stretchY = 1.1 - deformationAmounts[columnIndex] * 0.2;
   scale(stretchX, stretchY);
   ellipse(0, 0, bubbleDiameter, bubbleDiameter);
   pop();
@@ -131,7 +138,7 @@ function drawBubble(x, y, value) {
   fill(255);
   textSize(24);
   textFont('sans-serif');
-  text(nf(value, 1, 1), x, y - 5);
+  text(nf(ratings[columnIndex], 1, 1), x, y - 5);
 }
 
 function drawPauseButton() {
@@ -170,22 +177,27 @@ function drawPauseScreen() {
 function drawEndScreen() {
   background(50, 60, 70); // Darker background for end screen
 
-  // Calculate average
-  let sum = 0;
-  if (ratingHistory.length > 0) {
-    sum = ratingHistory.reduce((a, b) => a + b, 0);
+  // Calculate average for each column
+  let averages = [];
+  for (let i = 0; i < numColumns; i++) {
+    let sum = ratingHistories[i].reduce((a, b) => a + b, 0);
+    averages[i] = sum / ratingHistories[i].length;
   }
-  let average = ratingHistory.length > 0 ? sum / ratingHistory.length : 0;
 
-  // Display title and average
+  // Display title and averages
   fill(230);
   textSize(28);
   text("Session Ended", width / 2, 60);
+  
   textSize(20);
-  text("Overall Average Enjoyment: " + nf(average, 1, 2), width / 2, 100);
+  for (let i = 0; i < numColumns; i++) {
+    let columnWidth = width / (numColumns + 1);
+    let x = columnWidth * (i + 1);
+    text("Column " + (i + 1) + ": " + nf(averages[i], 1, 2), x, 100);
+  }
 
-  // Draw the graph
-  drawHistoryGraph();
+  // Draw the graphs
+  drawHistoryGraphs();
 
   // Draw Restart Button
   fill(180, 180, 220, 220);
@@ -196,58 +208,60 @@ function drawEndScreen() {
   text("Restart", restartButtonArea.x + restartButtonArea.w / 2, restartButtonArea.y + restartButtonArea.h / 2);
 }
 
-function drawHistoryGraph() {
-  let gx = graphDisplayArea.x;
-  let gy = graphDisplayArea.y;
-  let gw = graphDisplayArea.w;
-  let gh = graphDisplayArea.h;
+function drawHistoryGraphs() {
+  let graphHeight = graphDisplayArea.h / numColumns;
+  let graphMargin = 20;
+  
+  for (let i = 0; i < numColumns; i++) {
+    let gx = graphDisplayArea.x;
+    let gy = graphDisplayArea.y + i * (graphHeight + graphMargin);
+    let gw = graphDisplayArea.w;
+    let gh = graphHeight - graphMargin;
 
-  push(); // Use push/pop to isolate drawing styles and transformations
-
-  // Draw graph background and border
-  fill(235, 240, 245); // Light background for graph
-  noStroke();
-  rect(gx, gy, gw, gh);
-  stroke(100);
-  noFill();
-  rect(gx, gy, gw, gh); // Border
-
-  // Draw Y-axis labels (0-10)
-  fill(50);
-  noStroke();
-  textSize(12);
-  textAlign(RIGHT, CENTER);
-  for (let i = 0; i <= 10; i += 2) {
-    let yPos = map(i, 0, 10, gy + gh, gy); // Map rating to Y position
-    text(i, gx - 5, yPos);
-    stroke(200); // Light grid lines
-    line(gx, yPos, gx + gw, yPos);
-  }
-
-  // Draw X-axis label
-  textAlign(CENTER, TOP);
-  text("Time", gx + gw / 2, gy + gh + 5);
-
-  // Draw the rating line graph
-  if (ratingHistory.length > 1) {
+    push();
+    
+    // Draw graph background and border
+    fill(235, 240, 245);
+    noStroke();
+    rect(gx, gy, gw, gh);
+    stroke(100);
     noFill();
-    stroke(0, 0, 255); // Blue line
-    strokeWeight(2);
-    beginShape();
-    for (let i = 0; i < ratingHistory.length; i++) {
-      let x = map(i, 0, ratingHistory.length - 1, gx, gx + gw);
-      // Ensure value is within 0-10 before mapping, just in case
-      let val = constrain(ratingHistory[i], 0, 10);
-      let y = map(val, 0, 10, gy + gh, gy); // Map rating to graph Y (inverted)
-      vertex(x, y);
+    rect(gx, gy, gw, gh);
+
+    // Draw Y-axis labels (0-10)
+    fill(50);
+    noStroke();
+    textSize(12);
+    textAlign(RIGHT, CENTER);
+    for (let j = 0; j <= 10; j += 2) {
+      let yPos = map(j, 0, 10, gy + gh, gy);
+      text(j, gx - 5, yPos);
+      stroke(200);
+      line(gx, yPos, gx + gw, yPos);
     }
-    endShape();
+
+    // Draw X-axis label
+    textAlign(CENTER, TOP);
+    text("Time", gx + gw / 2, gy + gh + 5);
+
+    // Draw the rating line graph
+    if (ratingHistories[i].length > 1) {
+      noFill();
+      stroke(0, 0, 255);
+      strokeWeight(2);
+      beginShape();
+      for (let j = 0; j < ratingHistories[i].length; j++) {
+        let x = map(j, 0, ratingHistories[i].length - 1, gx, gx + gw);
+        let val = constrain(ratingHistories[i][j], 0, 10);
+        let y = map(val, 0, 10, gy + gh, gy);
+        vertex(x, y);
+      }
+      endShape();
+    }
+
+    pop();
   }
-
-  pop(); // Restore original drawing settings
-  textAlign(CENTER, CENTER); // Reset default text align
 }
-
 
 // --- Input Handling ---
 
@@ -263,33 +277,34 @@ function mousePressed() {
 
 function handleInput(mx, my) {
   if (ended) {
-    // Check Restart button
     if (isInsideArea(mx, my, restartButtonArea)) {
       restartSession();
     }
   } else if (paused) {
-    // Check Resume button
     if (isInsideArea(mx, my, resumeButtonArea)) {
       paused = false;
       console.log("Resumed");
-    }
-    // Check End button
-    else if (isInsideArea(mx, my, endButtonArea)) {
+    } else if (isInsideArea(mx, my, endButtonArea)) {
       ended = true;
       paused = false;
       console.log("Session Ended");
       calculateLayout();
     }
   } else {
-    // Check Pause button first
     if (isInsideArea(mx, my, pauseButtonArea)) {
       paused = true;
       console.log("Paused");
     } else {
-      // If not paused and not clicking a button, it's a screen tap to bump rating
-      bubbleVelocityY = -bubbleBouncePower;
-      // Add deformation on bump
-      deformationAmount = 0.5;
+      // Find which column was clicked
+      let columnWidth = width / (numColumns + 1);
+      let columnIndex = floor(mx / columnWidth) - 1;
+      
+      // Check if click was within a valid column
+      if (columnIndex >= 0 && columnIndex < numColumns) {
+        // Bump the balloon in that column
+        bubbleVelocitiesY[columnIndex] = -bubbleBouncePower;
+        deformationAmounts[columnIndex] = 0.5;
+      }
     }
   }
 }
@@ -319,11 +334,13 @@ function isInsideArea(mx, my, area) {
 // Resets the state to start a new session
 function restartSession() {
   console.log("Restarting session...");
-  currentRating = 10.0;
-  ratingHistory = [currentRating];
-  bubbleY = mapRatingToY(currentRating);
-  bubbleVelocityY = 0;
-  deformationAmount = 0;
+  for (let i = 0; i < numColumns; i++) {
+    ratings[i] = 10.0;
+    ratingHistories[i] = [ratings[i]];
+    bubbleYs[i] = mapRatingToY(ratings[i]);
+    bubbleVelocitiesY[i] = 0;
+    deformationAmounts[i] = 0;
+  }
   paused = false;
   ended = false;
   calculateLayout();
