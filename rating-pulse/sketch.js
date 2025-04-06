@@ -15,6 +15,11 @@ let ended = false;
 let bubbleY;
 let bubbleDiameter = 80;
 let bubbleVelocityY = 0;
+// Deformation animation variables
+let deformationAmount = 0;
+let deformationDirection = 1;
+let deformationSpeed = 0.15;
+let deformationDamping = 0.92;
 
 // --- UI Element Definitions ---
 let pauseButtonArea;
@@ -90,16 +95,43 @@ function draw() {
 // --- Drawing Functions ---
 
 function drawBubble(x, y, value) {
-  // Bubble fill
-  fill(100, 150, 255, 200); // Semi-transparent blue
+  // Update deformation animation
+  if (deformationAmount > 0) {
+    deformationAmount *= deformationDamping;
+  }
+  
+  // Draw the balloon string
+  stroke(100);
+  strokeWeight(2);
+  let stringLength = 40;
+  line(x, y + bubbleDiameter/2, x, y + bubbleDiameter/2 + stringLength);
+  
+  // Draw the balloon body with deformation
   noStroke();
-  ellipse(x, y, bubbleDiameter, bubbleDiameter);
+  fill(100, 150, 255, 200);
+  push();
+  translate(x, y);
+  // Apply squish and stretch based on deformation
+  let stretchX = 1 + deformationAmount * 0.3;
+  let stretchY = 1.1 - deformationAmount * 0.2;
+  scale(stretchX, stretchY);
+  ellipse(0, 0, bubbleDiameter, bubbleDiameter);
+  pop();
+  
+  // Draw the balloon knot
+  fill(80, 130, 235, 200);
+  ellipse(x, y + bubbleDiameter/2 - 5, 15, 15);
+  
+  // Draw the balloon string coming from the knot
+  stroke(100);
+  strokeWeight(2);
+  line(x, y + bubbleDiameter/2 - 5, x, y + bubbleDiameter/2 + stringLength);
 
-  // Text inside bubble
-  fill(255); // White text for contrast
+  // Text inside balloon
+  fill(255);
   textSize(24);
   textFont('sans-serif');
-  text(nf(value, 1, 1), x, y); // Format to 1 decimal place
+  text(nf(value, 1, 1), x, y - 5);
 }
 
 function drawPauseButton() {
@@ -244,23 +276,20 @@ function handleInput(mx, my) {
     // Check End button
     else if (isInsideArea(mx, my, endButtonArea)) {
       ended = true;
-      paused = false; // Ensure not paused anymore
+      paused = false;
       console.log("Session Ended");
-      // Optional: Recalculate final layout here if needed
       calculateLayout();
     }
   } else {
-    // Check Pause button first (so taps near it don't trigger a bump)
+    // Check Pause button first
     if (isInsideArea(mx, my, pauseButtonArea)) {
       paused = true;
       console.log("Paused");
     } else {
       // If not paused and not clicking a button, it's a screen tap to bump rating
-      // Instead of directly modifying the rating, we'll give the bubble an upward kick
       bubbleVelocityY = -bubbleBouncePower;
-      
-      // The rating will be updated in the next draw cycle based on the bubble position
-      // console.log("Bump! Rating:", nf(currentRating, 1, 1)); // Optional logging
+      // Add deformation on bump
+      deformationAmount = 0.5;
     }
   }
 }
@@ -294,9 +323,9 @@ function restartSession() {
   ratingHistory = [currentRating];
   bubbleY = mapRatingToY(currentRating);
   bubbleVelocityY = 0;
+  deformationAmount = 0;
   paused = false;
   ended = false;
-  // Recalculate layout in case window size changed
   calculateLayout();
 }
 
