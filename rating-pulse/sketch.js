@@ -7,7 +7,7 @@ let bubbleDamping = 0.92; // How quickly the bubble's velocity decreases (new pa
 let numColumns = 11; // Number of movie metric columns
 let columnSpacing = 0.2; // Spacing between columns as fraction of screen width
 
-// Movie metric labels
+// Movie metric labels and colors
 const metricLabels = [
   "Story",
   "Performance",
@@ -22,11 +22,29 @@ const metricLabels = [
   "Clarity"
 ];
 
+// Color palette for each metric
+const balloonColors = [
+  { fill: [255, 99, 71, 200], knot: [220, 79, 51, 200] },    // Story - Tomato Red
+  { fill: [147, 112, 219, 200], knot: [127, 92, 199, 200] }, // Performance - Medium Purple
+  { fill: [255, 182, 193, 200], knot: [235, 162, 173, 200] }, // Emotion - Light Pink
+  { fill: [64, 224, 208, 200], knot: [44, 204, 188, 200] },  // Visual - Turquoise
+  { fill: [255, 215, 0, 200], knot: [235, 195, 0, 200] },    // Audio - Gold
+  { fill: [50, 205, 50, 200], knot: [30, 185, 30, 200] },    // Message - Lime Green
+  { fill: [255, 140, 0, 200], knot: [235, 120, 0, 200] },    // Engagement - Dark Orange
+  { fill: [255, 105, 180, 200], knot: [235, 85, 160, 200] }, // Fun - Hot Pink
+  { fill: [138, 43, 226, 200], knot: [118, 23, 206, 200] },  // Replay - Blue Violet
+  { fill: [0, 191, 255, 200], knot: [0, 171, 235, 200] },    // Depth - Deep Sky Blue
+  { fill: [255, 255, 224, 200], knot: [235, 235, 204, 200] } // Clarity - Light Yellow
+];
+
 // --- Global State Variables ---
 let ratings = []; // Array of ratings for each column
 let ratingHistories = []; // Array of rating histories for each column
 let paused = false;
 let ended = false;
+let startTime;
+let pausedTime = 0; // Track how much time was spent paused
+let lastPauseTime; // Track when we last paused
 
 // --- Visual Bubble Variables ---
 let bubbleYs = []; // Array of Y positions for each balloon
@@ -60,11 +78,23 @@ function setup() {
   textSize(16);
   // frameRate(30); // Optional: Can reduce frame rate if needed
   console.log("Setup complete. Tap screen to boost rating.");
+  startTime = Date.now();
 }
 
 // --- Main Draw Loop ---
 function draw() {
-  background(240, 245, 250); // Light background
+  background(240, 245, 250);
+
+  // Draw time at the top
+  fill(50);
+  noStroke();
+  textSize(20);
+  textAlign(CENTER, TOP);
+  let currentTime = paused ? lastPauseTime : Date.now();
+  let elapsedTime = Math.floor((currentTime - startTime - pausedTime) / 1000); // Time in seconds
+  let minutes = Math.floor(elapsedTime / 60);
+  let seconds = elapsedTime % 60;
+  text(nf(minutes, 2) + ":" + nf(seconds, 2), width / 2, 20);
 
   if (ended) {
     drawEndScreen();
@@ -138,7 +168,7 @@ function drawBalloon(columnIndex) {
   
   // Draw the balloon body with deformation
   noStroke();
-  fill(100, 150, 255, 200);
+  fill(balloonColors[columnIndex].fill);
   push();
   translate(x, y);
   let stretchX = 1 + deformationAmounts[columnIndex] * 0.3;
@@ -148,7 +178,7 @@ function drawBalloon(columnIndex) {
   pop();
   
   // Draw the balloon knot
-  fill(80, 130, 235, 200);
+  fill(balloonColors[columnIndex].knot);
   ellipse(x, y + bubbleDiameter/2 - 5, 12, 12);
   
   // Draw the balloon string coming from the knot
@@ -158,7 +188,7 @@ function drawBalloon(columnIndex) {
 
   // Text inside balloon
   fill(255);
-  textSize(18); // Slightly smaller text
+  textSize(18);
   textFont('sans-serif');
   textAlign(CENTER, CENTER);
   text(nf(ratings[columnIndex], 1, 1), x, y - 5);
@@ -200,31 +230,12 @@ function drawPauseScreen() {
 function drawEndScreen() {
   background(50, 60, 70);
 
-  // Calculate average for each column
-  let averages = [];
-  for (let i = 0; i < numColumns; i++) {
-    let sum = ratingHistories[i].reduce((a, b) => a + b, 0);
-    averages[i] = sum / ratingHistories[i].length;
-  }
-
-  // Display title and averages
+  // Display title
   fill(230);
   textSize(28);
   text("Session Ended", width / 2, 60);
-  
-  // Display averages in a grid layout
-  textSize(16);
-  let columnsPerRow = 3;
-  let rowHeight = 30;
-  for (let i = 0; i < numColumns; i++) {
-    let row = Math.floor(i / columnsPerRow);
-    let col = i % columnsPerRow;
-    let x = width * (0.25 + col * 0.25);
-    let y = 120 + row * rowHeight;
-    text(metricLabels[i] + ": " + nf(averages[i], 1, 2), x, y);
-  }
 
-  // Draw the graphs
+  // Draw the graphs (now includes averages)
   drawHistoryGraphs();
 
   // Draw Restart Button
@@ -237,7 +248,7 @@ function drawEndScreen() {
 }
 
 function drawHistoryGraphs() {
-  let graphHeight = graphDisplayArea.h / 4; // Show 4 graphs per row
+  let graphHeight = graphDisplayArea.h / 4;
   let graphMargin = 20;
   let columnsPerRow = 3;
   
@@ -251,6 +262,10 @@ function drawHistoryGraphs() {
 
     push();
     
+    // Calculate average for this metric
+    let sum = ratingHistories[i].reduce((a, b) => a + b, 0);
+    let average = sum / ratingHistories[i].length;
+    
     // Draw graph background and border
     fill(235, 240, 245);
     noStroke();
@@ -259,12 +274,15 @@ function drawHistoryGraphs() {
     noFill();
     rect(gx, gy, gw, gh);
 
-    // Draw metric label
+    // Draw metric label and average
     fill(50);
     noStroke();
     textSize(12);
     textAlign(CENTER, TOP);
     text(metricLabels[i], gx + gw/2, gy + 5);
+    textSize(14);
+    textAlign(CENTER, TOP);
+    text("Avg: " + nf(average, 1, 2), gx + gw/2, gy + 25);
 
     // Draw Y-axis labels (0-10)
     fill(50);
@@ -272,7 +290,7 @@ function drawHistoryGraphs() {
     textSize(10);
     textAlign(RIGHT, CENTER);
     for (let j = 0; j <= 10; j += 2) {
-      let yPos = map(j, 0, 10, gy + gh - 20, gy + 20);
+      let yPos = map(j, 0, 10, gy + gh - 20, gy + 45); // Adjusted to account for label space
       text(j, gx - 5, yPos);
       stroke(200);
       line(gx, yPos, gx + gw, yPos);
@@ -281,13 +299,13 @@ function drawHistoryGraphs() {
     // Draw the rating line graph
     if (ratingHistories[i].length > 1) {
       noFill();
-      stroke(0, 0, 255);
+      stroke(balloonColors[i].fill[0], balloonColors[i].fill[1], balloonColors[i].fill[2]);
       strokeWeight(2);
       beginShape();
       for (let j = 0; j < ratingHistories[i].length; j++) {
         let x = map(j, 0, ratingHistories[i].length - 1, gx + 10, gx + gw - 10);
         let val = constrain(ratingHistories[i][j], 0, 10);
-        let y = map(val, 0, 10, gy + gh - 20, gy + 20);
+        let y = map(val, 0, 10, gy + gh - 20, gy + 45); // Adjusted to account for label space
         vertex(x, y);
       }
       endShape();
@@ -317,6 +335,8 @@ function handleInput(mx, my) {
   } else if (paused) {
     if (isInsideArea(mx, my, resumeButtonArea)) {
       paused = false;
+      // Add the time spent paused to our total paused time
+      pausedTime += Date.now() - lastPauseTime;
       console.log("Resumed");
     } else if (isInsideArea(mx, my, endButtonArea)) {
       ended = true;
@@ -327,6 +347,7 @@ function handleInput(mx, my) {
   } else {
     if (isInsideArea(mx, my, pauseButtonArea)) {
       paused = true;
+      lastPauseTime = Date.now(); // Record when we paused
       console.log("Paused");
     } else {
       // Check each balloon's bounding box
@@ -380,12 +401,14 @@ function isInsideArea(mx, my, area) {
 function restartSession() {
   console.log("Restarting session...");
   for (let i = 0; i < numColumns; i++) {
-    ratings[i] = 10.0;
+    ratings[i] = 5.0;
     ratingHistories[i] = [ratings[i]];
     bubbleYs[i] = mapRatingToY(ratings[i]);
     bubbleVelocitiesY[i] = 0;
     deformationAmounts[i] = 0;
   }
+  startTime = Date.now();
+  pausedTime = 0; // Reset paused time
   paused = false;
   ended = false;
   calculateLayout();
@@ -397,16 +420,43 @@ function calculateLayout() {
   let buttonH = 50;
   let pauseW = 60;
   let pauseH = 35;
+  let margin = 20;
 
-  pauseButtonArea = { x: width - pauseW - 15, y: 15, w: pauseW, h: pauseH };
-  resumeButtonArea = { x: width / 2 - buttonW - 10, y: height / 2 - buttonH / 2, w: buttonW, h: buttonH };
-  endButtonArea = { x: width / 2 + 10, y: height / 2 - buttonH / 2, w: buttonW, h: buttonH };
-  restartButtonArea = { x: width / 2 - buttonW / 2, y: height - buttonH - 30, w: buttonW, h: buttonH };
+  // Position pause button in lower left
+  pauseButtonArea = { 
+    x: margin, 
+    y: height - pauseH - margin, 
+    w: pauseW, 
+    h: pauseH 
+  };
+
+  // Position resume and end buttons below pause button
+  resumeButtonArea = { 
+    x: margin, 
+    y: height - (buttonH * 2 + margin * 3), 
+    w: buttonW, 
+    h: buttonH 
+  };
+  
+  endButtonArea = { 
+    x: margin, 
+    y: height - (buttonH + margin * 2), 
+    w: buttonW, 
+    h: buttonH 
+  };
+
+  // Position restart button in lower right
+  restartButtonArea = { 
+    x: width - buttonW - margin, 
+    y: height - buttonH - margin, 
+    w: buttonW, 
+    h: buttonH 
+  };
 
   // Define graph area relative to screen size and other elements
   let graphMarginX = 50;
   let graphMarginTop = 150;
-  let graphMarginBottom = 100; // Space for restart button
+  let graphMarginBottom = 120; // Increased to accommodate buttons
   graphDisplayArea = {
     x: graphMarginX,
     y: graphMarginTop,
